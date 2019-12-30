@@ -2,10 +2,8 @@ package com.example.realm_sample_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.example.realm_sample_app.databinding.ActivityMainBinding
-import com.google.android.material.snackbar.Snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 
@@ -25,11 +23,10 @@ class MainActivity : AppCompatActivity() {
             groupAdapter.add(ListItem(item))
         }
 
-        val fab: View = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Fabを押しました！", Snackbar.LENGTH_LONG)
-                .setAction("Action", null)
-                .show()
+        binding.fab.setOnClickListener {
+            supportFragmentManager.let { manager ->
+                FormDialogFragment().show(manager, FormDialogFragment::class.simpleName)
+            }
         }
     }
 }
