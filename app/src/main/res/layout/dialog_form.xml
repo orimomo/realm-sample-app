@@ -8,20 +8,54 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true">
 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/dialog_title"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/frame_view"
+            android:layout_width="306dp"
+            android:layout_height="106dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
         <EditText
             android:id="@+id/editText"
             android:layout_width="300dp"
             android:layout_height="100dp"
+            android:background="@android:color/white"
+            android:gravity="top"
+            android:hint="@string/form_hint"
+            android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/frame_view"
+            app:layout_constraintEnd_toEndOf="@+id/frame_view"
+            app:layout_constraintStart_toStartOf="@+id/frame_view"
+            app:layout_constraintTop_toTopOf="@+id/frame_view"
+            tools:ignore="Autofill" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            android:gravity="top"
-            android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
-            android:hint="@string/form_hint"
-            android:background="@android:color/transparent"
+            android:background="@color/colorPrimary"
+            android:text="@string/dialog_button"
+            android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="Autofill"/>
+            app:layout_constraintEnd_toEndOf="@+id/editText"
+            app:layout_constraintTop_toBottomOf="@+id/editText" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
