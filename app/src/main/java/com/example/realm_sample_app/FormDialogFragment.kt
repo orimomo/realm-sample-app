@@ -1,18 +1,26 @@
 package com.example.realm_sample_app
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.realm_sample_app.databinding.DialogFormBinding
 
 class FormDialogFragment : DialogFragment() {
     private var binding: DialogFormBinding? = null
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DialogFormBinding.inflate(inflater, container, false).also {
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        binding = DialogFormBinding.inflate(LayoutInflater.from(activity), null, false)
+
+        binding?.button?.setOnClickListener {
+            // TODO: 保存処理
         }
-        return binding?.root
+
+        return super.onCreateDialog(savedInstanceState).apply {
+            binding?.let {
+                setContentView(it.root)
+            }
+        }
     }
 
     override fun onDestroyView() {

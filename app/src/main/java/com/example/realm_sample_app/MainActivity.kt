@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.recyclerView.adapter = groupAdapter
 
-        val items = listOf("りんご🍎", "みかん🍊", "ぶどう🍇", "すいか🍉", "もも🍑", "ばなな🍌")
+        val items = listOf("りんご🍎")
         items.forEach { item ->
             groupAdapter.add(ListItem(item))
         }
