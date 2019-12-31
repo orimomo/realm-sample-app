@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">realm-sample-app</string>
+    <string name="form_hint">入力…</string>
 </resources>

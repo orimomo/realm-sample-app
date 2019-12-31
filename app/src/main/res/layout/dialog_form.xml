@@ -5,8 +5,23 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:background="@android:color/holo_blue_light">
+        android:layout_height="wrap_content"
+        android:focusableInTouchMode="true">
 
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="top"
+            android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+            android:hint="@string/form_hint"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="Autofill"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
