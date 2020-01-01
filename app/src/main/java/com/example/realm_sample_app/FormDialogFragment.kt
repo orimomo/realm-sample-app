@@ -21,12 +21,13 @@ class FormDialogFragment : DialogFragment() {
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
                 //initしたインスタンスをとってきて、トランザクションで書き込み
-                val id = 2
+                val id = 3
                 realm = Realm.getDefaultInstance()
                 realm.executeTransaction { realm ->
                     val obj = realm.createObject(ListObject::class.java, id)
                     obj.title = memo
                 }
+                dismiss()
             }
         }
 
