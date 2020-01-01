@@ -3,6 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.realm_sample_app.FormViewModel"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,7 +21,7 @@
             android:layout_marginTop="24dp"
             android:text="@string/dialog_title"
             android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/editText"
+            app:layout_constraintStart_toStartOf="@+id/memo"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
@@ -31,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/title" />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/memo"
             android:layout_width="300dp"
             android:layout_height="100dp"
             android:background="@android:color/white"
@@ -39,6 +45,7 @@
             android:hint="@string/form_hint"
             android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
             android:padding="4dp"
+            android:text="@={viewModel.memo}"
             app:layout_constraintBottom_toBottomOf="@+id/frame_view"
             app:layout_constraintEnd_toEndOf="@+id/frame_view"
             app:layout_constraintStart_toStartOf="@+id/frame_view"
@@ -55,7 +62,7 @@
             android:text="@string/dialog_button"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/editText"
-            app:layout_constraintTop_toBottomOf="@+id/editText" />
+            app:layout_constraintEnd_toEndOf="@+id/memo"
+            app:layout_constraintTop_toBottomOf="@+id/memo" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
