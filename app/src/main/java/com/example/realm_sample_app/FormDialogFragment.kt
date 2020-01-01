@@ -9,6 +9,7 @@ import io.realm.Realm
 
 class FormDialogFragment : DialogFragment() {
     private var binding: DialogFormBinding? = null
+    lateinit var realm: Realm
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFormBinding.inflate(LayoutInflater.from(activity), null, false)
@@ -17,7 +18,7 @@ class FormDialogFragment : DialogFragment() {
             //keyを設定して
             val id = 1
             //initしたインスタンスをとってきて、トランザクションで書き込み
-            val realm = Realm.getDefaultInstance()
+            realm = Realm.getDefaultInstance()
             realm.executeTransaction { realm ->
                 val obj = realm.createObject(ListObject::class.java, id)
                 obj.title = "test1"
@@ -33,6 +34,7 @@ class FormDialogFragment : DialogFragment() {
 
     override fun onDestroyView() {
         binding = null
+        realm.close()
         super.onDestroyView()
     }
 }
