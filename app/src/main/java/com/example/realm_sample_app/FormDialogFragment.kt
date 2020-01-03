@@ -25,7 +25,7 @@ class FormDialogFragment : DialogFragment() {
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
                 // 書き込み
-                val id = 10
+                val id = 11
                 realm = Realm.getDefaultInstance()
                 realm.executeTransaction { realm ->
                     val obj = realm.createObject(ListObject::class.java, id)
@@ -40,6 +40,8 @@ class FormDialogFragment : DialogFragment() {
                 }
                 viewModel.list.value = titleList
 
+                // 後処理
+                viewModel.clearMemo()
                 usedRealm = true
                 dismiss()
             }

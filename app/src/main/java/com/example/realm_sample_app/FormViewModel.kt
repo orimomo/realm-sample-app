@@ -6,4 +6,8 @@ import androidx.lifecycle.ViewModel
 class FormViewModel : ViewModel() {
     val memo = MutableLiveData<String>()
     val list = MutableLiveData<List<String>>()
+
+    fun clearMemo() {
+        memo.value = ""
+    }
 }
