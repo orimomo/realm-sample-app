@@ -1,7 +1,9 @@
 package com.example.realm_sample_app
 
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
@@ -12,8 +14,10 @@ class FormDialogFragment : DialogFragment() {
     private lateinit var viewModel: FormViewModel
     private var binding: DialogFormBinding? = null
     private lateinit var realm: Realm
-
     private var usedRealm = false
+    private val sharedPreferences: SharedPreferences by lazy {
+        PreferenceManager.getDefaultSharedPreferences(context)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFormBinding.inflate(LayoutInflater.from(activity), null, false)
@@ -25,7 +29,8 @@ class FormDialogFragment : DialogFragment() {
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
                 // 書き込み
-                val id = 11
+                val savedId = sharedPreferences.getInt(KEY.REALM_ID.name, id)
+                val id = savedId + 1
                 realm = Realm.getDefaultInstance()
                 realm.executeTransaction { realm ->
                     val obj = realm.createObject(ListObject::class.java, id)
@@ -41,6 +46,7 @@ class FormDialogFragment : DialogFragment() {
                 viewModel.list.value = titleList
 
                 // 後処理
+                sharedPreferences.edit().putInt(KEY.REALM_ID.name, id).apply()
                 viewModel.clearMemo()
                 usedRealm = true
                 dismiss()
@@ -58,5 +64,9 @@ class FormDialogFragment : DialogFragment() {
         binding = null
         if (usedRealm) realm.close()
         super.onDestroyView()
+    }
+
+    enum class KEY {
+        REALM_ID
     }
 }
