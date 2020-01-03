@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.realm_sample_app.databinding.FragmentListBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
@@ -29,6 +30,7 @@ class ListFragment : Fragment() {
 
         binding = FragmentListBinding.inflate(inflater, container, false).also {
             it.recyclerView.adapter = groupAdapter
+            it.recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
             it.fab.setOnClickListener {
                 activity?.supportFragmentManager?.let { manager ->
