@@ -11,19 +11,21 @@ import io.realm.Realm
 class FormDialogFragment : DialogFragment() {
     private lateinit var viewModel: FormViewModel
     private var binding: DialogFormBinding? = null
-    lateinit var realm: Realm
+    private lateinit var realm: Realm
 
     private var usedRealm = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFormBinding.inflate(LayoutInflater.from(activity), null, false)
-        viewModel = ViewModelProviders.of(this).get(FormViewModel::class.java)
+        viewModel = activity?.run {
+            ViewModelProviders.of(this)[FormViewModel::class.java]
+        } ?: throw Exception("Invalid Activity")
         binding?.viewModel = viewModel
 
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
                 // 書き込み
-                val id = 2
+                val id = 10
                 realm = Realm.getDefaultInstance()
                 realm.executeTransaction { realm ->
                     val obj = realm.createObject(ListObject::class.java, id)
