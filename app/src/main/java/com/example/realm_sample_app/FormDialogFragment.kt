@@ -22,13 +22,22 @@ class FormDialogFragment : DialogFragment() {
 
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
-                //initしたインスタンスをとってきて、トランザクションで書き込み
+                // 書き込み
                 val id = 2
                 realm = Realm.getDefaultInstance()
                 realm.executeTransaction { realm ->
                     val obj = realm.createObject(ListObject::class.java, id)
                     obj.title = memo
                 }
+
+                // 読み込み
+                val all = realm.where(ListObject::class.java).findAll()
+                val titleList = mutableListOf<String>()
+                all.forEach { item ->
+                    titleList.add(item.title)
+                }
+                viewModel.list.value = titleList
+
                 usedRealm = true
                 dismiss()
             }
