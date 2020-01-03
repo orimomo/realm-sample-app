@@ -13,6 +13,8 @@ class FormDialogFragment : DialogFragment() {
     private var binding: DialogFormBinding? = null
     lateinit var realm: Realm
 
+    private var usedRealm = false
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFormBinding.inflate(LayoutInflater.from(activity), null, false)
         viewModel = ViewModelProviders.of(this).get(FormViewModel::class.java)
@@ -21,12 +23,13 @@ class FormDialogFragment : DialogFragment() {
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
                 //initしたインスタンスをとってきて、トランザクションで書き込み
-                val id = 3
+                val id = 2
                 realm = Realm.getDefaultInstance()
                 realm.executeTransaction { realm ->
                     val obj = realm.createObject(ListObject::class.java, id)
                     obj.title = memo
                 }
+                usedRealm = true
                 dismiss()
             }
         }
@@ -40,7 +43,7 @@ class FormDialogFragment : DialogFragment() {
 
     override fun onDestroyView() {
         binding = null
-        realm.close()
+        if (usedRealm) realm.close()
         super.onDestroyView()
     }
 }
