@@ -11,7 +11,9 @@ class Application : android.app.Application() {
 
         // Realmの初期化
         Realm.init(this)
-        val config = RealmConfiguration.Builder().build()
+        val config = RealmConfiguration.Builder()
+//            .deleteRealmIfMigrationNeeded()
+            .build()
         Realm.setDefaultConfiguration(config)
 
         // stetho-realmの初期化
