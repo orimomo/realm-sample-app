@@ -57,8 +57,10 @@ class ListFragment : Fragment() {
         })
 
         viewModel.updateItem.observe(viewLifecycleOwner, Observer { obj ->
-            viewModel.memo.value = obj.title
-            goToDialog()
+            obj?.let {
+                viewModel.memo.value = obj.title
+                goToDialog()
+            }
         })
 
         viewModel.updateMemo.observe(viewLifecycleOwner, Observer { updateMemo ->
@@ -107,6 +109,7 @@ class ListFragment : Fragment() {
         }
         reloadRecyclerView()
         usedRealm = true
+        viewModel.clearUpdate()
     }
 
     private fun deleteRealm(id: Int) {
