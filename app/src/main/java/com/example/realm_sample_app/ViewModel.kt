@@ -7,6 +7,7 @@ import io.realm.RealmResults
 class ViewModel : ViewModel() {
     val memo = MutableLiveData<String>()
     val list = MutableLiveData<RealmResults<ListObject>>()
+    val newMemo = MutableLiveData<String>()
     val deleteId = MutableLiveData<Int>()
 
     fun clearMemo() {
