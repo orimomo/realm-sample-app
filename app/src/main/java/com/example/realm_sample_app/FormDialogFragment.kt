@@ -11,7 +11,7 @@ import com.example.realm_sample_app.databinding.DialogFormBinding
 import io.realm.Realm
 
 class FormDialogFragment : DialogFragment() {
-    private lateinit var viewModel: FormViewModel
+    private lateinit var viewModel: ViewModel
     private var binding: DialogFormBinding? = null
     private lateinit var realm: Realm
     private var usedRealm = false
@@ -22,7 +22,7 @@ class FormDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = DialogFormBinding.inflate(LayoutInflater.from(activity), null, false)
         viewModel = activity?.run {
-            ViewModelProviders.of(this)[FormViewModel::class.java]
+            ViewModelProviders.of(this)[ViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
         binding?.viewModel = viewModel
 

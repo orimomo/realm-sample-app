@@ -16,7 +16,7 @@ import io.realm.RealmResults
 import io.realm.Sort
 
 class ListFragment : Fragment() {
-    private lateinit var viewModel: FormViewModel
+    private lateinit var viewModel: ViewModel
     private var binding: FragmentListBinding? = null
     private val groupAdapter = GroupAdapter<ViewHolder>()
     private lateinit var realm: Realm
@@ -27,7 +27,7 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         viewModel = activity?.run {
-            ViewModelProviders.of(this)[FormViewModel::class.java]
+            ViewModelProviders.of(this)[ViewModel::class.java]
         } ?: throw Exception("Invalid Activity")
 
         binding = FragmentListBinding.inflate(inflater, container, false).also {

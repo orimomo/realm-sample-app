@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.realm_sample_app.FormViewModel"/>
+            type="com.example.realm_sample_app.ViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

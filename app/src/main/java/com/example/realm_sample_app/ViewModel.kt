@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.realm.RealmResults
 
-class FormViewModel : ViewModel() {
+class ViewModel : ViewModel() {
     val memo = MutableLiveData<String>()
     val list = MutableLiveData<RealmResults<ListObject>>()
 
