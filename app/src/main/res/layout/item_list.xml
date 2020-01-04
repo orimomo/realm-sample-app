@@ -22,13 +22,13 @@
             android:text="@{text}"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/button2"
+            app:layout_constraintEnd_toStartOf="@+id/delete_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="メモメモ" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/delete_button"
             android:layout_width="70dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"

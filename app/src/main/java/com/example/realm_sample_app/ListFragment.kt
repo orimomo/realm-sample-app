@@ -60,8 +60,8 @@ class ListFragment : Fragment() {
 
     private fun addSortedItems(list: RealmResults<ListObject>) {
         val sortedAll = list.sort("id", Sort.DESCENDING)
-        sortedAll.forEach { item ->
-            groupAdapter.add(ListItem(item.title))
+        sortedAll.forEach { obj ->
+            groupAdapter.add(ListItem(obj))
         }
     }
 }
