@@ -13,4 +13,8 @@ class ViewModel : ViewModel() {
     fun clearMemo() {
         memo.value = ""
     }
+
+    enum class KEY {
+        REALM_ID
+    }
 }

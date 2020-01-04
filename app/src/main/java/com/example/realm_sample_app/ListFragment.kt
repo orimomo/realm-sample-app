@@ -83,7 +83,7 @@ class ListFragment : Fragment() {
     }
 
     private fun createRealm(title: String) {
-        val savedId = sharedPreferences.getInt(KEY.REALM_ID.name, id)
+        val savedId = sharedPreferences.getInt(ViewModel.KEY.REALM_ID.name, id)
         val id = savedId + 1
         realm.executeTransaction { realm ->
             val obj = realm.createObject(ListObject::class.java, id)
@@ -91,7 +91,8 @@ class ListFragment : Fragment() {
         }
         groupAdapter.clear()
         readRealm()
-        sharedPreferences.edit().putInt(KEY.REALM_ID.name, id).apply()
+        usedRealm = true
+        sharedPreferences.edit().putInt(ViewModel.KEY.REALM_ID.name, id).apply()
     }
 
     private fun readRealm() {
@@ -107,18 +108,12 @@ class ListFragment : Fragment() {
     }
 
     private fun deleteRealm(id: Int) {
-        // 削除対象を取得
         val target = realm.where(ListObject::class.java)
             .equalTo("id",id)
             .findAll()
-        // 削除
         realm.executeTransaction {
             target.deleteFromRealm(0)
         }
         usedRealm = true
-    }
-
-    enum class KEY {
-        REALM_ID
     }
 }
