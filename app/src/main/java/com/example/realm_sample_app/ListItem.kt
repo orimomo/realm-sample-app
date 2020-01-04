@@ -19,5 +19,10 @@ class ListItem(private val obj: ListObject, private val viewModel: ViewModel) : 
                 .setNegativeButton("キャンセル", null)
                 .create().show()
         }
+
+        viewBinding.root.setOnLongClickListener {
+            viewModel.updateItem.value = obj
+            true
+        }
     }
 }

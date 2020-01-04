@@ -20,7 +20,13 @@ class FormDialogFragment : DialogFragment() {
 
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
-                viewModel.newMemo.value = memo
+                viewModel.updateItem.value?.let {
+                    // 更新だった場合
+                    viewModel.updateMemo.value = memo
+                } ?: run {
+                    // 新規作成だった場合
+                    viewModel.newMemo.value = memo
+                }
                 viewModel.clearMemo()
                 dismiss()
             }

@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 class ViewModel : ViewModel() {
     val memo = MutableLiveData<String>()
     val newMemo = MutableLiveData<String>()
+    val updateItem = MutableLiveData<ListObject>()
+    val updateMemo = MutableLiveData<String>()
     val deleteId = MutableLiveData<Int>()
 
     fun clearMemo() {

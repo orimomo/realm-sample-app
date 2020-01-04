@@ -40,9 +40,7 @@ class ListFragment : Fragment() {
             it.recyclerView.addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
 
             it.fab.setOnClickListener {
-                activity?.supportFragmentManager?.let { manager ->
-                    FormDialogFragment().show(manager, FormDialogFragment::class.simpleName)
-                }
+                goToDialog()
             }
         }
 
@@ -54,8 +52,19 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         readRealm()
 
-        viewModel.newMemo.observe(viewLifecycleOwner, Observer { memo ->
-            createRealm(memo)
+        viewModel.newMemo.observe(viewLifecycleOwner, Observer { newMemo ->
+            createRealm(newMemo)
+        })
+
+        viewModel.updateItem.observe(viewLifecycleOwner, Observer { obj ->
+            viewModel.memo.value = obj.title
+            goToDialog()
+        })
+
+        viewModel.updateMemo.observe(viewLifecycleOwner, Observer { updateMemo ->
+            viewModel.updateItem.value?.id?.let { id ->
+                updateRealm(id, updateMemo)
+            }
         })
 
         viewModel.deleteId.observe(viewLifecycleOwner, Observer { id ->
@@ -84,12 +93,20 @@ class ListFragment : Fragment() {
             val obj = realm.createObject(ListObject::class.java, id)
             obj.title = title
         }
-        // 再描画
-        groupAdapter.clear()
-        readRealm()
-
+        reloadRecyclerView()
         usedRealm = true
         sharedPreferences.edit().putInt(ViewModel.KEY.REALM_ID.name, id).apply()
+    }
+
+    private fun updateRealm(id: Int, newTitle: String) {
+        val target = realm.where(ListObject::class.java)
+            .equalTo("id",id)
+            .findFirst()
+        realm.executeTransaction {
+            target?.title = newTitle
+        }
+        reloadRecyclerView()
+        usedRealm = true
     }
 
     private fun deleteRealm(id: Int) {
@@ -99,10 +116,18 @@ class ListFragment : Fragment() {
         realm.executeTransaction {
             target.deleteFromRealm(0)
         }
-        // 再描画
+        reloadRecyclerView()
+        usedRealm = true
+    }
+
+    private fun reloadRecyclerView() {
         groupAdapter.clear()
         readRealm()
+    }
 
-        usedRealm = true
+    private fun goToDialog() {
+        activity?.supportFragmentManager?.let { manager ->
+            FormDialogFragment().show(manager, FormDialogFragment::class.simpleName)
+        }
     }
 }
