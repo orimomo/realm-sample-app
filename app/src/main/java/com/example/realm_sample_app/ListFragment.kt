@@ -12,6 +12,7 @@ import com.example.realm_sample_app.databinding.FragmentListBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.Sort
 
 class ListFragment : Fragment() {
@@ -48,16 +49,19 @@ class ListFragment : Fragment() {
         // 初回読み込み
         realm = Realm.getDefaultInstance()
         val all = realm.where(ListObject::class.java).findAll()
-        val sortedAll = all.sort("id", Sort.DESCENDING)
+        addSortedItems(all)
+
+        // 新規作成した後の追加読み込み
+        viewModel.list.observe(viewLifecycleOwner, Observer { all ->
+            groupAdapter.clear()
+            addSortedItems(all)
+        })
+    }
+
+    private fun addSortedItems(list: RealmResults<ListObject>) {
+        val sortedAll = list.sort("id", Sort.DESCENDING)
         sortedAll.forEach { item ->
             groupAdapter.add(ListItem(item.title))
         }
-
-        viewModel.list.observe(viewLifecycleOwner, Observer { list ->
-            groupAdapter.clear()
-            list.forEach { title ->
-                groupAdapter.add(ListItem(title))
-            }
-        })
     }
 }

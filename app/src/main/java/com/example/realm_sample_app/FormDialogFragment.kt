@@ -39,11 +39,7 @@ class FormDialogFragment : DialogFragment() {
 
                 // 読み込み
                 val all = realm.where(ListObject::class.java).findAll()
-                val titleList = mutableListOf<String>()
-                all.forEach { item ->
-                    titleList.add(item.title)
-                }
-                viewModel.list.value = titleList
+                viewModel.list.value = all
 
                 // 後処理
                 sharedPreferences.edit().putInt(KEY.REALM_ID.name, id).apply()
