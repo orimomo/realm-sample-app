@@ -12,6 +12,7 @@ import com.example.realm_sample_app.databinding.FragmentListBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import io.realm.Realm
+import io.realm.Sort
 
 class ListFragment : Fragment() {
     private lateinit var viewModel: FormViewModel
@@ -47,7 +48,8 @@ class ListFragment : Fragment() {
         // 初回読み込み
         realm = Realm.getDefaultInstance()
         val all = realm.where(ListObject::class.java).findAll()
-        all.forEach { item ->
+        val sortedAll = all.sort("id", Sort.DESCENDING)
+        sortedAll.forEach { item ->
             groupAdapter.add(ListItem(item.title))
         }
 
