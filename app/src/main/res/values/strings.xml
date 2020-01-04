@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">realm-sample-app</string>
     <string name="form_hint">入力…</string>
-    <string name="dialog_title">2020年にやりたいこと🎍</string>
-    <string name="dialog_button">保存</string>
+    <string name="dialog_title">メモ</string>
+    <string name="dialog_save_button">保存</string>
+    <string name="list_delete_button">削除</string>
 </resources>
