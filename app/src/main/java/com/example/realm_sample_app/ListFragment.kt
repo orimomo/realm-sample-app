@@ -14,7 +14,6 @@ import com.example.realm_sample_app.databinding.FragmentListBinding
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.ViewHolder
 import io.realm.Realm
-import io.realm.RealmResults
 import io.realm.Sort
 
 class ListFragment : Fragment() {
@@ -53,26 +52,14 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 初回読み込み
         readRealm()
 
         viewModel.newMemo.observe(viewLifecycleOwner, Observer { memo ->
             createRealm(memo)
-
         })
 
-        // 新規作成した後の読み込み
-        viewModel.list.observe(viewLifecycleOwner, Observer { all ->
-            groupAdapter.clear()
-            addSortedItems(all)
-        })
-
-        // 削除する
         viewModel.deleteId.observe(viewLifecycleOwner, Observer { id ->
             deleteRealm(id)
-            groupAdapter.clear()
-            readRealm()
         })
     }
 
@@ -82,6 +69,14 @@ class ListFragment : Fragment() {
         super.onDestroyView()
     }
 
+    private fun readRealm() {
+        val all = realm.where(ListObject::class.java).findAll()
+        val sortedAll = all.sort("id", Sort.DESCENDING)
+        sortedAll.forEach { obj ->
+            groupAdapter.add(ListItem(obj, viewModel))
+        }
+    }
+
     private fun createRealm(title: String) {
         val savedId = sharedPreferences.getInt(ViewModel.KEY.REALM_ID.name, id)
         val id = savedId + 1
@@ -89,22 +84,12 @@ class ListFragment : Fragment() {
             val obj = realm.createObject(ListObject::class.java, id)
             obj.title = title
         }
+        // 再描画
         groupAdapter.clear()
         readRealm()
+
         usedRealm = true
         sharedPreferences.edit().putInt(ViewModel.KEY.REALM_ID.name, id).apply()
-    }
-
-    private fun readRealm() {
-        val all = realm.where(ListObject::class.java).findAll()
-        addSortedItems(all)
-    }
-
-    private fun addSortedItems(list: RealmResults<ListObject>) {
-        val sortedAll = list.sort("id", Sort.DESCENDING)
-        sortedAll.forEach { obj ->
-            groupAdapter.add(ListItem(obj, viewModel))
-        }
     }
 
     private fun deleteRealm(id: Int) {
@@ -114,6 +99,10 @@ class ListFragment : Fragment() {
         realm.executeTransaction {
             target.deleteFromRealm(0)
         }
+        // 再描画
+        groupAdapter.clear()
+        readRealm()
+
         usedRealm = true
     }
 }
