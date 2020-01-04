@@ -20,6 +20,7 @@ class ListFragment : Fragment() {
     private var binding: FragmentListBinding? = null
     private val groupAdapter = GroupAdapter<ViewHolder>()
     private lateinit var realm: Realm
+    private var usedRealm = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,21 +48,50 @@ class ListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // 初回読み込み
-        realm = Realm.getDefaultInstance()
-        val all = realm.where(ListObject::class.java).findAll()
-        addSortedItems(all)
+        readRealm()
 
-        // 新規作成した後の追加読み込み
+        // 新規作成した後の読み込み
         viewModel.list.observe(viewLifecycleOwner, Observer { all ->
             groupAdapter.clear()
             addSortedItems(all)
         })
+
+        // 削除する
+        viewModel.deleteId.observe(viewLifecycleOwner, Observer { id ->
+            deleteRealm(id)
+            groupAdapter.clear()
+            readRealm()
+        })
+    }
+
+    override fun onDestroyView() {
+        binding = null
+        if (usedRealm) realm.close()
+        super.onDestroyView()
+    }
+
+    private fun readRealm() {
+        realm = Realm.getDefaultInstance()
+        val all = realm.where(ListObject::class.java).findAll()
+        addSortedItems(all)
     }
 
     private fun addSortedItems(list: RealmResults<ListObject>) {
         val sortedAll = list.sort("id", Sort.DESCENDING)
         sortedAll.forEach { obj ->
-            groupAdapter.add(ListItem(obj))
+            groupAdapter.add(ListItem(obj, viewModel))
         }
+    }
+
+    private fun deleteRealm(id: Int) {
+        // 削除対象を取得
+        val target = realm.where(ListObject::class.java)
+            .equalTo("id",id)
+            .findAll()
+        // 削除
+        realm.executeTransaction {
+            target.deleteFromRealm(0)
+        }
+        usedRealm = true
     }
 }

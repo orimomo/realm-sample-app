@@ -28,6 +28,8 @@ class FormDialogFragment : DialogFragment() {
 
         binding?.button?.setOnClickListener {
             viewModel.memo.value?.let { memo ->
+
+                // TODO: ListFragmentに持っていったほうがきれいかも
                 // 書き込み
                 val savedId = sharedPreferences.getInt(KEY.REALM_ID.name, id)
                 val id = savedId + 1
