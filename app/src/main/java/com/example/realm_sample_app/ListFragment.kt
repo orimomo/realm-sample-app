@@ -21,7 +21,6 @@ class ListFragment : Fragment() {
     private var binding: FragmentListBinding? = null
     private val groupAdapter = GroupAdapter<ViewHolder>()
     private lateinit var realm: Realm
-    private var usedRealm = false
     private val sharedPreferences: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(context)
     }
@@ -76,7 +75,7 @@ class ListFragment : Fragment() {
 
     override fun onDestroyView() {
         binding = null
-        if (usedRealm) realm.close()
+        realm.close()
         super.onDestroyView()
     }
 
@@ -96,7 +95,6 @@ class ListFragment : Fragment() {
             obj.title = title
         }
         reloadRecyclerView()
-        usedRealm = true
         sharedPreferences.edit().putInt(ViewModel.KEY.REALM_ID.name, id).apply()
     }
 
@@ -108,7 +106,6 @@ class ListFragment : Fragment() {
             target?.title = newTitle
         }
         reloadRecyclerView()
-        usedRealm = true
         viewModel.clearUpdate()
     }
 
@@ -120,7 +117,6 @@ class ListFragment : Fragment() {
             target.deleteFromRealm(0)
         }
         reloadRecyclerView()
-        usedRealm = true
     }
 
     private fun reloadRecyclerView() {
