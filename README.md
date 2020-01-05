@@ -8,6 +8,10 @@ Realmを使ったメモ帳アプリ
 * Delete: Itemの削除ボタン押下で削除
 ```
 
+Qiitaにもまとめています。
+
+[Kotlin + Realm でシンプルなメモ帳アプリを作ってみた - Qiita](https://qiita.com/orimomo/items/bc1f2065f44104176f7f)
+
 ## デモ
 ![Jan-04-2020 23-19-15](https://user-images.githubusercontent.com/12453846/71766918-c0fa4780-2f48-11ea-92ed-b3a6e4de7cbd.gif)
 
